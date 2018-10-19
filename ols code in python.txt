@@ -1,0 +1,24 @@
+Python for Assignment 5
+gasusage = pd.read_csv("gasoline.csv",index_col = 0)
+import seaborn as sns
+from sklearn.datasets import load_iris
+from sklearn.feature_selection import SelectKBest#somehow it couldn't read the Y variable
+from sklearn.feature_selection import chi2
+import numpy as np
+
+import statsmodels.formula.api as sm 
+gasusage.corr(method='pearson')
+sns.pairplot(gasusage, vars = ('mpg','displacement','horsepower',
+'torque','compression_ratio','rear_axle_ratio','overall_length','width','weight'))#for scatterplot matrix with special diagonal histograms
+gasfullmdl = sm.ols(formula='mpg ~ displacement + horsepower + torque + compression_ratio + rear_axle_ratio + carburetor_barrels + transmission_speeds + overall_length + width + weight + transmission_type', data= gasusage).fit()
+gasfullmdl.summary()
+gasnohpr = sm.ols(formula='mpg ~ displacement + torque + compression_ratio +	rear_axle_ratio + carburetor_barrels + transmission_speeds + overall_length + width + weight + transmission_type', data= gasusage).fit()
+gasnohpr.summary()
+gasno7 = sm.ols(formula='mpg ~ displacement + torque + carburetor_barrels + transmission_speeds + overall_length + width + weight', data= gasusage).fit()
+gasno7.summary()
+gasnow6 = sm.ols(formula='mpg ~ torque + carburetor_barrels + transmission_speeds + overall_length + width + weight', data= gasusage).fit()
+gasnow6.summary()
+gasnow5 = sm.ols(formula='mpg ~ torque + carburetor_barrels + transmission_speeds + width + weight', data= gasusage).fit()
+gasnow5.summary()
+gasnow2 = sm.ols(formula='mpg ~ torque + weight', data= gasusage).fit()#ran a series with this variable to find the best 2 variables
+gasnow2.summary()#ran this in series to find the best 2 variables.
